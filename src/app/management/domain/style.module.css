@@ -1,0 +1,43 @@
+/* Thiết lập kiểu cho bảng */
+.table {
+  margin-top: 24px;
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.tableHead {
+  background-color: #f4f5f6;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Thiết lập kiểu cho hàng (row) */
+.tableRow {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Thiết lập kiểu cho ô (cell) */
+.tableCell {
+  flex: 1;
+  text-align: left;
+  padding: 12px 24px;
+}
+
+.tableChild {
+  border-bottom: 1px solid #ccc;
+  font-weight: 500;
+  padding: 24px;
+}
+
+.btn {
+  background-color: #fff;
+  border: none;
+  margin-right: 24px;
+  outline: none;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}

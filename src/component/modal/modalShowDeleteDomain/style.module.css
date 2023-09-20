@@ -1,0 +1,52 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #252525cc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  border-radius: 5px;
+  padding: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  padding-right: 140px;
+}
+
+.modalHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.message {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 12px;
+  text-align: left;
+}
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modalBtn {
+  display: flex;
+  gap: 6px;
+  background-color: #c63131;
+  color: #fff;
+  border: 1px solid #c63131;
+  padding: 10px 16px;
+}
+
+.modalBtn:hover {
+  opacity: 0.8;
+}

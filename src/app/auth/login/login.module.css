@@ -1,0 +1,73 @@
+.formLogin {
+  max-width: 553px;
+  padding: 34px;
+  margin: 0 auto;
+  border: 1px solid #fff;
+  border-radius: 25px;
+  background-color: #fff;
+}
+
+.img {
+  text-align: center;
+}
+
+.label {
+  display: block;
+  margin-top: 24px;
+  font-weight: 500;
+}
+
+.formInput {
+  border: 1px solid #cfcfcf;
+  outline: none;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 12px;
+  font-size: 16px;
+  height: 48px;
+  padding-left: 12px;
+}
+
+.forgotPass {
+  text-align: right;
+  color: #ff9900;
+  font-weight: 500;
+  margin-top: 24px;
+  text-decoration: none;
+}
+
+.rememberLogin {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #666;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.checkbox:checked {
+  background-color: #ff8c00;
+  border-color: #ccc;
+}
+
+.btnLogin {
+  border-radius: 99px;
+  padding: 16px 24px;
+  font-size: 24px;
+  margin-top: 34px;
+  width: 100%;
+  background: #ff9900;
+  border: 1px solid #ff9900;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btnLogin:hover {
+  opacity: 0.9;
+}

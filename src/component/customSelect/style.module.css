@@ -1,0 +1,16 @@
+.inputSelect {
+  appearance: none;
+  margin: 0 12px;
+  background-color: #fff;
+  border: 1px solid #cfcfcf;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.inputSelect:focus {
+  border: 1px solid #cfcfcf;
+  box-shadow: none;
+}
