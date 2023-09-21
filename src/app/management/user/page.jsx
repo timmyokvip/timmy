@@ -17,6 +17,8 @@ const table = [
 
 const UserManagement = () => {
   const [filterUser, setFilterUser] = useState("");
+  const [arrayFilter, setArrayFilter] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
 
   // add user
@@ -24,12 +26,11 @@ const UserManagement = () => {
 
   // select
   const [selectOption, setSelectOption] = useState("");
-  const [arrayFilter, setArrayFilter] = useState(null);
 
   const handleChange = (e) => {
     setSelectOption(e.target.value);
   };
-
+  // lọc
   const handleFilterRole = () => {
     const newUserArrFilter =
       filterUser === "Tất cả"
@@ -145,17 +146,6 @@ const UserManagement = () => {
               option={["SEO", "CTV", "Tất cả"]}
               handleChangeSelect={(value) => setFilterUser(value)}
             ></CustomSelect>
-
-            {/* <select
-              id="mySelect"
-              onChange={handleChange}
-              className={styles.inputSelect}
-            >
-              {selectOption ? null : <option>Thương hiệu</option>}
-              <option value="Google">Google</option>
-              <option value="Microsoft">Microsoft</option>
-              <option value="Amazon">Amazon</option>
-            </select> */}
 
             <button className={styles.btn} onClick={() => handleFilterRole()}>
               Lọc

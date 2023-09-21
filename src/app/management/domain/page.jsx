@@ -4,7 +4,6 @@ import Pagination from "../../../component/pagination/Pagination";
 import { useState } from "react";
 import icons from "../../../../public/icon/icon";
 import ModalShow from "@/component/modal/modalShowDeleteDomain/ModalShow";
-import CustomSelect from "@/component/customSelect/CustomSelect";
 
 const table = [
   { name: "Tên domain" },
@@ -21,42 +20,54 @@ const UserManagement = () => {
   const [domainArray, setDomainArray] = useState([
     {
       id: 1,
-      domain: "google.com",
-      team: "Team 10",
-      brand: ".com",
-      manager: "Nobita",
-      note: "dùng chung 4 web",
-      userCreate: "xuka",
+      domain: ".com",
+      team: "Team 5",
+      brand: "google",
+      manager: "Mimi",
+      note: "dùng chung 4",
+      userCreate: "Xixi",
       dateCreate: "19/09/2023",
     },
     {
       id: 2,
-      domain: "youtube.com",
-      team: "Team 7",
-      brand: ".com",
+      domain: ".vn",
+      team: "Team 1",
+      brand: "youtube",
       manager: "Xeko",
       note: "abczzz",
-      userCreate: "ashe",
+      userCreate: "Xuka",
       dateCreate: "22/09/2023",
     },
     {
       id: 3,
-      domain: "email.net",
-      team: "Team 1",
-      brand: ".net",
+      domain: ".org",
+      team: "Team 2",
+      brand: "okvip",
       manager: "black",
       note: "100 web",
       userCreate: "unknow",
       dateCreate: "22/09/2023",
     },
   ]);
-
   const [showModal, setShowModal] = useState(false);
   const [domainDelete, setDomainDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTeam, setSelectedTeam] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [filterDomain, setFilterDomain] = useState("");
+  const [arrayFilter, setArrayFilter] = useState(null);
 
-  const handleShowModal = () => {
-    setShowModal(true);
+  // data select
+  const teamSelect = {
+    name: "Team",
+    id: "team",
+    option: ["Team 1", "Team 2", "Team 3", "Team 4", "Team 5"],
+  };
+
+  const brandSelect = {
+    name: "Thương hiệu",
+    id: "brand",
+    option: ["google", "youtube", "apple"],
   };
 
   const handleCloseModal = () => {
@@ -68,7 +79,7 @@ const UserManagement = () => {
     setDomainDelete(domainId);
   };
 
-  // Hàm xác nhận xóa domain và cập nhật danh sách
+  // delete domain && updateData
   const confirmDelete = () => {
     const updatedDomains = domainArray.filter(
       (domain) => domain.id !== domainDelete
@@ -79,7 +90,78 @@ const UserManagement = () => {
   };
 
   // select option
-  const [selectOption, setSelectOption] = useState("");
+  // Hàm xử lý khi thay đổi giá trị trong ô select Team
+  const handleTeamChange = (event) => {
+    setSelectedTeam(event.target.value);
+  };
+
+  // Hàm xử lý khi thay đổi giá trị trong ô select Brand
+  const handleBrandChange = (event) => {
+    setSelectedBrand(event.target.value);
+  };
+
+  //
+  const handleFilter = () => {
+    // Thực hiện logic lọc dữ liệu dựa trên selectedTeam và selectedBrand
+    const filteredData =
+      filterDomain === teamSelect.name || brandSelect.name
+        ? [...domainArray]
+        : domainArray.filter((item) => {
+            const matchTeam = selectedTeam === "" || item.team === selectedTeam;
+            const matchBrand =
+              selectedBrand === "" || item.brand === selectedBrand;
+
+            return matchTeam && matchBrand;
+          });
+
+    setArrayFilter(filteredData);
+  };
+
+  const renderTableUser = () => {
+    let dataDomain = [];
+    if (arrayFilter) dataDomain = arrayFilter;
+    else dataDomain = domainArray;
+
+    return dataDomain.map((item, index) => {
+      return (
+        <div className={styles.tableRow} key={item.id}>
+          <span className={`${styles.tableChild} ${styles.tableCell}`}>
+            {item.domain}
+          </span>
+
+          <span className={`${styles.tableChild} ${styles.tableCell}`}>
+            {item.team}
+          </span>
+
+          <span className={`${styles.tableChild} ${styles.tableCell}`}>
+            {item.brand}
+          </span>
+          <span className={`${styles.tableChild} ${styles.tableCell}`}>
+            {item.manager}
+          </span>
+          <span className={`${styles.tableChild} ${styles.tableCell}`}>
+            {item.note}
+          </span>
+
+          <span className={`${styles.tableChild} ${styles.tableCell}`}>
+            {item.userCreate}
+          </span>
+
+          <span className={`${styles.tableChild} ${styles.tableCell}`}>
+            {item.dateCreate}
+          </span>
+          <span className={`${styles.tableChild} ${styles.tableCell}`}>
+            <button
+              className={`${styles.btnDelete} ${styles.btnDelete}`}
+              onClick={() => handleDeleteDomain(item.id)}
+            >
+              <icons.delete color="red" size={30} />
+            </button>
+          </span>
+        </div>
+      );
+    });
+  };
 
   return (
     <div>
@@ -89,26 +171,44 @@ const UserManagement = () => {
             <input
               className={styles.inputSearch}
               placeholder="Tìm kiếm thành viên"
+              style={{ marginRight: "12px" }}
             />
 
-            <CustomSelect
-              textSelect="phân quyền"
-              option={["SEO", "CTV", "Tất cả"]}
-              handleChangeSelect={(value) => setFilterUser(value)}
-            ></CustomSelect>
+            {/* <CustomSelect
+              textSelect="Team"
+              option={["Team 1", "Team 2", "Team 3", "Team 4", "Tất cả"]}
+              handleChangeSelect={(value) => setFilterDomain(value)}
+            ></CustomSelect> */}
 
-            <select
-              id="mySelect"
-              // onChange={handleChange}
-              className={styles.inputSelect}
-            >
-              {selectOption ? null : <option>Thương hiệu</option>}
-              <option value="Google">Google</option>
-              <option value="Microsoft">Microsoft</option>
-              <option value="Amazon">Amazon</option>
+            {/* {arrSelect.map((data) => (
+              <select
+                onChange={handleChange}
+                className={styles.inputSelect}
+                key={data.id}
+              >
+                {selectOption ? null : (
+                  <option value={data.name}>{data.name}</option>
+                )}
+                {data.option.map((item) => (
+                  <option value={item}>{item}</option>
+                ))}
+              </select>
+            ))} */}
+
+            <select value={selectedTeam} onChange={handleTeamChange}>
+              <option value="">{teamSelect.name}</option>
+              {teamSelect.option.map((team) => (
+                <option value={team}>{team}</option>
+              ))}
+            </select>
+            <select value={selectedBrand} onChange={handleBrandChange}>
+              <option value="">{brandSelect.name}</option>
+              {brandSelect.option.map((brand) => (
+                <option value={brand}>{brand}</option>
+              ))}
             </select>
 
-            <button className={styles.btn} onClick={() => handleFilterRole()}>
+            <button className={styles.btn} onClick={handleFilter}>
               Lọc
             </button>
           </div>
@@ -122,47 +222,7 @@ const UserManagement = () => {
           ))}
         </header>
 
-        {domainArray.map((item, index) => {
-          return (
-            <>
-              <div className={styles.tableRow} key={item.id}>
-                <span className={`${styles.tableChild} ${styles.tableCell}`}>
-                  {item.domain}
-                </span>
-
-                <span className={`${styles.tableChild} ${styles.tableCell}`}>
-                  {item.team}
-                </span>
-
-                <span className={`${styles.tableChild} ${styles.tableCell}`}>
-                  {item.brand}
-                </span>
-                <span className={`${styles.tableChild} ${styles.tableCell}`}>
-                  {item.manager}
-                </span>
-                <span className={`${styles.tableChild} ${styles.tableCell}`}>
-                  {item.note}
-                </span>
-
-                <span className={`${styles.tableChild} ${styles.tableCell}`}>
-                  {item.userCreate}
-                </span>
-
-                <span className={`${styles.tableChild} ${styles.tableCell}`}>
-                  {item.dateCreate}
-                </span>
-                <span className={`${styles.tableChild} ${styles.tableCell}`}>
-                  <button
-                    className={`${styles.btnDelete} ${styles.btnDelete}`}
-                    onClick={() => handleDeleteDomain(item.id)}
-                  >
-                    <icons.delete color="red" size={30} />
-                  </button>
-                </span>
-              </div>
-            </>
-          );
-        })}
+        {renderTableUser()}
       </div>
 
       {showModal && (

@@ -6,6 +6,9 @@ import { useState } from "react";
 function CustomSelect(props) {
   const { textSelect, option, handleChangeSelect } = props;
   const [selectOption, setSelectOption] = useState(null);
+  const handleChange = (event) => {
+    setSelectOption(event.target.value);
+  };
 
   return (
     <Form.Select

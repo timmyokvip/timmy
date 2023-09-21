@@ -32,13 +32,13 @@ function AddNewUser(props) {
     if (props.isEdit) {
       props.handleEditUser(newUser);
       // dong modal lai
-      toast("Sua user thanh cong");
+      toast("Cập nhật user thành công");
     } else {
       // goi ham add user tu prop
       props.addUser(newUser);
       // dong modal lai
 
-      toast("Them user thanh cong");
+      toast("Thêm mới user thành công");
     }
     handleClose();
     setNewUser({ ...initialUser });
