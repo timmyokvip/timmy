@@ -4,16 +4,27 @@ import styles from "./style.module.css";
 import { useState } from "react";
 
 function CustomSelect(props) {
-  const [selectOption, setSelectOption] = useState("");
+  const { textSelect, option, handleChangeSelect } = props;
+  const [selectOption, setSelectOption] = useState(null);
 
   return (
     <Form.Select
       aria-label="Default select example"
       className={styles.inputSelect}
+      value={selectOption}
+      onChange={(e) => handleChangeSelect(e.target.value)}
     >
-      {selectOption ? null : <option>{props.props}</option>}
-      <option value="1">SEO</option>
-      <option value="2">CTV</option>
+      <option disabled selected value>
+        {textSelect}
+      </option>
+      {option &&
+        option.map((item, index) => {
+          return (
+            <option value={item} key={index}>
+              {item}
+            </option>
+          );
+        })}
     </Form.Select>
   );
 }

@@ -2,9 +2,9 @@
 import style from "./style.module.css";
 import icons from "../../../../public/icon/icon";
 
-const ModalShow = ({ show, onClose, message, message2 }) => {
+const ModalShow = ({ onClose, message, message2, onDelede }) => {
   return (
-    <div show={show} onClose={onClose} centered className={style.modalOverlay}>
+    <div className={style.modalOverlay} onClick={onClose}>
       <div className={style.modal}>
         <header className={style.modalHead}>
           <icons.exclamation size={40} color="#C63131" />
@@ -18,7 +18,7 @@ const ModalShow = ({ show, onClose, message, message2 }) => {
           <a onClick={onClose} style={{ color: "blue", cursor: "pointer" }}>
             Quay về
           </a>
-          <button onClick={onClose} className={style.modalBtn}>
+          <button onClick={onDelede} className={style.modalBtn}>
             <icons.delete size={24} />
             Xóa
           </button>

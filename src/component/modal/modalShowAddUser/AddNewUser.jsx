@@ -4,26 +4,45 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import style from "./addNewUser.module.css";
 import icons from "../../../../public/icon/icon";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+
+const initialUser = {
+  fullName: " ",
+  phoneNumber: "",
+  email: "",
+  userName: "",
+  password: "",
+  role: "",
+  team: "",
+  department: "",
+};
 
 function AddNewUser(props) {
-  const [newUser, setNewUser] = useState({
-    fullName: " ",
-    phoneNumber: "",
-    email: "",
-    userName: "",
-    password: "",
-    role: "",
-    team: "",
-    department: "",
-  });
-  const handleSubmit = () => {
-    // goi ham add user tu prop
-    props.addUser(newUser);
-    // dong modal lai
-    handleClose();
-  };
-
+  const [newUser, setNewUser] = useState({ ...initialUser });
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (props.isEdit && show) {
+      const cloneUserEdit = { ...props.userEdit };
+      setNewUser(cloneUserEdit);
+    }
+  }, [props.userEdit, show]);
+  const handleSubmit = () => {
+    if (props.isEdit) {
+      props.handleEditUser(newUser);
+      // dong modal lai
+      toast("Sua user thanh cong");
+    } else {
+      // goi ham add user tu prop
+      props.addUser(newUser);
+      // dong modal lai
+
+      toast("Them user thanh cong");
+    }
+    handleClose();
+    setNewUser({ ...initialUser });
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -75,14 +94,25 @@ function AddNewUser(props) {
 
   return (
     <div>
-      <Button onClick={handleShow} className={style.btnAddNewUser}>
-        <icons.plus size={30} />
-        Thêm user mới
-      </Button>
+      {props.isEdit ? (
+        <button
+          onClick={handleShow}
+          className={`${style.btnEdit} ${style.btn}`}
+        >
+          <icons.edit color="orange" size={30} />
+        </button>
+      ) : (
+        <Button onClick={handleShow} className={style.btnAddNewUser}>
+          <icons.plus size={30} />
+          Thêm user mới
+        </Button>
+      )}
 
       <Modal show={show} onHide={handleClose} id="modal" className="modal-lg">
         <Modal.Header closeButton>
-          <Modal.Title style={{ margin: "-12px 0" }}>Thêm user mới</Modal.Title>
+          <Modal.Title style={{ margin: "-12px 0" }}>
+            {props.isEdit ? "Chỉnh sửa user" : "Thêm user mới"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
@@ -110,6 +140,11 @@ function AddNewUser(props) {
                     </label>
                     <input
                       value={newUser[item.id]}
+                      disabled={
+                        item.id === "userName" && props.isEdit == true
+                          ? true
+                          : false
+                      }
                       type="text"
                       className={style.formInput}
                       id={item.id}
@@ -135,13 +170,13 @@ function AddNewUser(props) {
                     </label>
                     <select
                       id="selectOption"
-                      value={item.id}
+                      value={newUser[item.id]}
                       onChange={(e) =>
                         handleChangeUser(e.target.value, item.id)
                       }
                       className={style.selectInput}
                     >
-                      {newUser.department ? null : <option>-- Chọn --</option>}
+                      {newUser[item.id] ? null : <option>-- Chọn --</option>}
                       {item.option.map((item) => (
                         <option value={item}>{item}</option>
                       ))}
@@ -159,7 +194,7 @@ function AddNewUser(props) {
             className={style.btnModal}
             type="submit"
           >
-            Thêm mới
+            {props.isEdit ? "Lưu" : "Thêm mới"}
           </Button>
         </Modal.Footer>
       </Modal>
